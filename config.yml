@@ -1,0 +1,77 @@
+default:
+  generator: rdn #модель за замовчуванням
+  feature_extractor: false
+  discriminator: false
+  training_set: div2k # навчальний набір за замовчуванням
+  test_set: sample # папка із вхідними даними за замовчуванням
+log_dirs:
+  logs: ./logs # каталог з логами для тренування
+  weights: ./weights # каталог із вагами для тренування
+dirs:
+  weights: ./weights # каталог із вагами для передбачення
+feature_extractor:
+  vgg19:
+    layers_to_extract: #слої, що будуть витягнуті мережею VGG19
+      - 5
+      - 9
+generators:
+  rdn: # значення за замовчуванням для мережі rdn
+    C: 6 # number of conv layer inside each residual dense blocks
+    D: 20 # number of RDBs.
+    G: 64 # number of convolution output filters inside the RDBs.
+    G0: 64 # number of output filters of each RDB.
+    x: 2
+loss_weights:
+  generator: 1.0
+  feature_extractor: 0.0833
+  discriminator: 0.01
+losses:
+  generator: mae # mean absolute error
+  discriminator: binary_crossentropy
+  feature_extractor: mse #mean square error
+session:
+  prediction:
+    patch_size:
+  training:
+    steps_per_epoch: 1000
+    patch_size: 32
+    batch_size: 16
+    epochs: 300
+    n_validation_samples: 100
+    learning_rate:
+      initial_value: 0.0004
+      decay_frequency: 50
+      decay_factor: 0.5
+    fallback_save_every_n_epochs: 2
+    flatness:
+      min: 0.0
+      increase_frequency: null
+      increase: 0.0
+      max: 0.0
+    metrics:
+      generator: PSNR_Y
+    monitored_metrics:
+      val_loss: min
+      val_PSNR_Y: max
+    adam_optimizer: #значення для коректного навчання https://stackoverflow.com/questions/42327543/adam-optimizer-goes-haywire-after-200k-batches-training-loss-grows
+      beta1: 0.9
+      beta2: 0.999
+      epsilon: null
+test_sets:
+  sample: ./data/input/sample
+training_sets:
+  custom data:
+    lr_train_dir: ./data/custom/lr/train
+    hr_train_dir: ./data/custom/hr/train
+    lr_valid_dir: ./data/custom/lr/validation
+    hr_valid_dir: ./data/custom/hr/validation
+    data_name: custom
+  div2k:
+    lr_train_dir: ./data/DIV2K/DIV2K_train_LR_bicubic/X2
+    hr_train_dir: ./data/DIV2K/DIV2K_train_HR
+    lr_valid_dir: ./data/DIV2K/DIV2K_valid_LR_bicubic/X2
+    hr_valid_dir: ./data/DIV2K/DIV2K_valid_HR
+    data_name: div2k
+weights_paths:
+  discriminator:
+  generator: ./weights/sample_weights/rdn-C6-D20-G64-G064-x2/ArtefactCancelling/rdn-C6-D20-G64-G064-x2_ArtefactCancelling_epoch219.hdf5

@@ -1,0 +1,6 @@
+*
+!VSR
+!scripts
+!weights/sample_weights/*
+!config.yml
+!setup.py
