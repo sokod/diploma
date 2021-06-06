@@ -45,8 +45,6 @@ def check_parameter_keys(parameter, needed_keys, optional_keys=None, default_val
             if key not in parameter:
                 logger.error('{p} не вказано ключ {k}'.format(p=parameter, k=key))
                 raise
-        object.settings['training_parameters']['starting_epoch'] = last_epoch
-        self.settings = self.update_config(object.settings)
     if optional_keys:
         for key in optional_keys:
             if key not in parameter:
