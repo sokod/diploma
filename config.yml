@@ -36,7 +36,7 @@ session:
     steps_per_epoch: 5 #1000
     patch_size: 32
     batch_size: 16
-    epochs: 5 # 300
+    epochs: 2 # 300
     n_validation_samples: 1 # 100
     learning_rate:
       initial_value: 0.0004
@@ -74,4 +74,4 @@ training_sets:
     data_name: div2k
 weights_paths:
   discriminator:
-  generator: ./weights/sample_weights/rdn-C6-D20-G64-G064-x2/ArtefactCancelling/rdn-C6-D20-G64-G064-x2_ArtefactCancelling_epoch219.hdf5
+  generator:
