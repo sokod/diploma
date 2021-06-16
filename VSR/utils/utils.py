@@ -21,12 +21,12 @@ def _get_parser():
 
 
 def parse_args():
-    """ Зчитуэ CLI аргументи. """
+    """ Зчитує CLI аргументи. """
 
     parser = _get_parser()
     args = vars(parser.parse_args())
     if args['prediction'] and args['training']:
-        logger.error('Оберіть тільки "prediction" - передбачення, чи "training" - навчання.')
+        logger.error('Оберіть тільки "prediction" - покращення, чи "training" - навчання.')
         raise ValueError('Оберіть тільки "prediction" чи "training".')
     return args
 
@@ -159,7 +159,7 @@ def browse_weights(weights_dir, model='generator'):
 
 
 def setup(config_file='config.yml', default=False, training=False, prediction=False):
-    """Інтерфейс CLI для встановлення навчання чи передбачення (класифікації).
+    """Інтерфейс CLI для встановлення навчання чи покращення.
 
     Зчитує шлях до конфігурації та аргументів із CLI.
     """
@@ -171,7 +171,7 @@ def setup(config_file='config.yml', default=False, training=False, prediction=Fa
     elif prediction:
         session_type = 'prediction'
     else:
-        message = '(н)авчання - навчання чи (п)ередбачення - передбачення? (н/п) '
+        message = '(н)авчання чи (п)окращення? (н/п) '
         session_type = {'н': 'training', 'п': 'prediction'}[select_option(['н', 'п'], message)]
     if default:
         all_default = 'y'

@@ -1,18 +1,20 @@
 import imageio
+from moviepy.editor import *
 
 reader = imageio.get_reader('test.mp4')
 fps = reader.get_meta_data()['fps']
 duration = reader.get_meta_data()['duration']
-change_img = imageio.imread('download.jpg')
 print(reader.get_meta_data())
+kargs = { 'macro_block_size': None }
+writer = imageio.get_writer('test1.mp4', fps=fps, **kargs)
 
-writer = imageio.get_writer('test_1.mp4', fps=fps)
 
-step = 1
-total_fps = fps * duration
 for im in reader:
-    writer.append_data(change_img)
-    progress = (step / total_fps) * 100
-    print(progress)
-    step+=1
+    writer.append_data(im[:, :, :])
 writer.close()
+
+videoclip1 = VideoFileClip("test.mp4")
+videoclip2 = VideoFileClip("test1.mp4")
+
+videoclip2.audio = videoclip1.audio
+videoclip2.write_videofile("test1.mp4", verbose=False, logger=None)

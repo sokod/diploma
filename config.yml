@@ -33,11 +33,11 @@ session:
   prediction:
     patch_size:
   training:
-    steps_per_epoch: 1000
+    steps_per_epoch: 5 #1000
     patch_size: 32
     batch_size: 16
-    epochs: 300
-    n_validation_samples: 100
+    epochs: 5 # 300
+    n_validation_samples: 1 # 100
     learning_rate:
       initial_value: 0.0004
       decay_frequency: 50
@@ -67,10 +67,10 @@ training_sets:
     hr_valid_dir: ./data/custom/hr/validation
     data_name: custom
   div2k:
-    lr_train_dir: ./data/DIV2K/DIV2K_train_LR_bicubic/X2
-    hr_train_dir: ./data/DIV2K/DIV2K_train_HR
-    lr_valid_dir: ./data/DIV2K/DIV2K_valid_LR_bicubic/X2
-    hr_valid_dir: ./data/DIV2K/DIV2K_valid_HR
+    lr_train_dir: ./div2k/DIV2K_train_LR_bicubic/X2
+    hr_train_dir: ./div2k/DIV2K_train_HR
+    lr_valid_dir: ./div2k/DIV2K_valid_LR_bicubic/X2
+    hr_valid_dir: ./div2k/DIV2K_valid_HR
     data_name: div2k
 weights_paths:
   discriminator:

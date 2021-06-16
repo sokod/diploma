@@ -4,6 +4,7 @@ import imageio
 import yaml
 import numpy as np
 from pathlib import Path
+from moviepy.editor import *
 
 from VSR.utils.logger import get_logger
 from VSR.utils.utils import get_timestamp
@@ -110,12 +111,16 @@ class Predictor:
             start = time()
             reader = imageio.get_reader(video_path)
             fps = reader.get_meta_data()['fps']
-            duration = reader.get_meta_data()['duration']
-            writer = imageio.get_writer(output_path, fps=fps)
+            kargs = { 'macro_block_size': None }
+            writer = imageio.get_writer(output_path, fps=fps, **kargs)
             for lr_img in reader:
                 sr_img = self._forward_pass(lr_img)
                 writer.append_data(sr_img)
             writer.close()
+            originalVideo = VideoFileClip(str(video_path))
+            enhancedVideo = VideoFileClip(str(output_path))
+            enhancedVideo.audio = originalVideo.audio
+            enhancedVideo.write_videofile(str(output_path), verbose=False, logger=None)
             end = time()
             self.logger.info('Витрачений час: {}s'.format(end - start))
             self.logger.info('Результати в: {}'.format(output_path))

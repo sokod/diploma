@@ -11,7 +11,7 @@ setup(
     description='Video Super Resolution',
     long_description=long_description,
     license='Apache 2.0',
-    install_requires=['imageio', 'imageio-ffmpeg', 'numpy', 'tensorflow==2.*', 'tqdm', 'pyaml'],
+    install_requires=['imageio', 'moviepy', 'imageio-ffmpeg', 'numpy', 'tensorflow==2.*', 'tqdm', 'pyaml', 'PyYAML'],
     extras_require={
         'gpu': ['tensorflow-gpu==2.*'],
         'dev': ['bumpversion==0.5.3'],
